@@ -47,12 +47,12 @@
             <category android:name="android.intent.category.HOME"/>
             <category android:name="android.intent.category.DEFAULT"/>
         </config-file>
-        <source-file src="src/android/org/apache/cordova/orion/Orion.java" target-dir="src/cordova-plugin-orion/Orion"/>
-        <source-file src="src/android/org/apache/cordova/orion/OrionTools.java"
+        <source-file src="src/android/orion/Orion.java" target-dir="src/cordova-plugin-orion/Orion"/>
+        <source-file src="src/android/orion/OrionTools.java"
                      target-dir="src/cordova-plugin-orion/Orion"/>
-        <source-file src="src/android/org/apache/cordova/orion/OrionScreenReceiver.java"
+        <source-file src="src/android/orion/OrionScreenReceiver.java"
                      target-dir="src/cordova-plugin-orion/Orion"/>
-        <source-file src="src/android/org/apache/cordova/orion/OrionScreenService.java"
+        <source-file src="src/android/orion/OrionScreenService.java"
                      target-dir="src/cordova-plugin-orion/Orion"/>
     </platform>
 </plugin>
