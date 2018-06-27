@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-orion",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "Plugin Couteaux suisses",
   "cordova": {
     "id": "cordova-plugin-orion",
