@@ -11,7 +11,6 @@ import android.os.Build;
 import android.util.Log;
 import org.apache.cordova.CordovaPlugin;
 
-
 import java.io.*;
 
 import android.Manifest;
@@ -24,6 +23,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.util.Base64;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -47,12 +48,22 @@ public class OrionTools {
      * @param drawable
      * @param path
      */
-    public static void drawableTofile(Drawable drawable, String path) {
+    public static void drawableTofile(Drawable iconDrawable, String path) {
         File file = new File(path);
-        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, bos);
-        byte[] bitmapdata = bos.toByteArray();
+//            Bitmap bitmap=((BitmapDrawable)drawable).getBitmap();
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, bos);
+//            byte[] bitmapdata = bos.toByteArray();
+
+        Bitmap bitmap = Bitmap.createBitmap(iconDrawable.getIntrinsicWidth(),
+                iconDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        iconDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        iconDrawable.draw(canvas);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] bitmapdata = byteArrayOutputStream.toByteArray();
+//            return "data:image/png;base64," + Base64.encodeToString(byteArray, Base64.DEFAULT);
 
         //write the bytes in file
         FileOutputStream fos;

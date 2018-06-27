@@ -77,15 +77,15 @@ public class Orion extends CordovaPlugin {
             callbackContext.success(r);
             return true;
         } else if(action.equals("getApps")) {
-            //@description: Liste des apps
+            //@description: List of applications installed in the phone
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     try {
                         JSONArray array = getAppList();
                         callbackContext.success(array);
                     } catch (Exception e) {
-                        System.err.println("Exception: " + e.getMessage());
-                        callbackContext.error(e.getMessage());
+                        Log.e("Orion::getApps::" + e.getMessage());
+                        callbackContext.error("Error::" + e.getMessage());
                     }
                 }
             });
@@ -102,7 +102,7 @@ public class Orion extends CordovaPlugin {
                 callbackContext.error("Failed to test data");
             }
         } else if(action.equals("getCall")) {
-            //@description: Make a phone call.
+            //@description: Call a phone number with the default phone application
             try {
 
                 String number = OrionTools.parsePhoneNumber(args.getString(0));
@@ -110,14 +110,13 @@ public class Orion extends CordovaPlugin {
                 //Bypass AppChooser
                 intent.setPackage(OrionTools.getDialerPackage(intent, this));
                 cordova.getActivity().startActivity(intent);
-                Log.d("Orion::getCall::", "Calling :: " + number);
                 callbackContext.success();
             } catch (NumberFormatException e) {
-                Log.d("Orion::getCall::", "Call bad number ::" + args.getString(0)  );
-                callbackContext.error("Bad Number");
+                Log.e("Orion::getCall::", "Call bad number::" + args.getString(0));
+                callbackContext.error("Error::Bad number::" + args.getString(0));
             }catch (Exception e){
-                Log.d("Orion::getCall::", "Call failed" + e.getMessage() );
-                callbackContext.error("Failed :" + e.getMessage());
+                Log.e("Orion::getCall::", "Call failed" + e.getMessage() );
+                callbackContext.error("Error::" + e.getMessage());
             }
             return true;
         } else if(action.equals("launchService")){
