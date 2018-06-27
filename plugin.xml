@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-orion"
+        version="0.0.1"
+        xmlns="http://apache.org/cordova/ns/plugins/1.0">
+    <name>Orion</name>
+    <description>Plugin Couteaux suisses</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,plugin,device</keywords>
+    <js-module name="Orion" src="www/Orion.js">
+        <clobbers target="cordova.plugins.Orion"/>
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="Orion">
+                <param name="android-package" value="org.apache.cordova.orion.Orion"/>
+            </feature>
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
+        <config-file parent="/manifest/application" target="AndroidManifest.xml">
+            <service android:enabled="true" android:name="org.apache.cordova.orion.OrionScreenService"/>
+        </config-file>
+        <config-file parent="/manifest" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+            <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"/>
+            <uses-permission android:name="android.permission.CALL_PHONE"/>
+            <uses-permission android:name="android.permission.CAMERA"/>
+            <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+            <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.READ_SMS"/>
+            <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+            <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+            <permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
+                        android:protectionLevel="signature"/>
+            <uses-permission android:name="android.permission.GET_TASKS"/>
+        </config-file>
+        <config-file parent="/manifest/application/activity/intent-filter" target="AndroidManifest.xml">
+            <category android:name="android.intent.category.HOME"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+        </config-file>
+        <source-file src="src/android/org/apache/cordova/orion/Orion.java" target-dir="src/cordova-plugin-orion/Orion"/>
+        <source-file src="src/android/org/apache/cordova/orion/OrionTools.java"
+                     target-dir="src/cordova-plugin-orion/Orion"/>
+        <source-file src="src/android/org/apache/cordova/orion/OrionScreenReceiver.java"
+                     target-dir="src/cordova-plugin-orion/Orion"/>
+        <source-file src="src/android/org/apache/cordova/orion/OrionScreenService.java"
+                     target-dir="src/cordova-plugin-orion/Orion"/>
+    </platform>
+</plugin>

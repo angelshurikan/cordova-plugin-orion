@@ -1,0 +1,20 @@
+{
+  "name": "cordova-plugin-orion",
+  "version": "0.0.4",
+  "description": "Plugin Couteaux suisses",
+  "cordova": {
+    "id": "cordova-plugin-orion",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "plugin",
+    "device",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Mace Jerome",
+  "license": "Apache 2.0"
+}
