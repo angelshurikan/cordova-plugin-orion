@@ -33,9 +33,11 @@
 
     cordova.plugins.Orion.isDataActive(success, error) 
     
-**makeCall**
+**getCall**
 
-    cordova.plugins.Orion.makeCall(number, success, error)
+Call a phone number with the default phone application  
+
+    cordova.plugins.Orion.getCall(number, success, error)
     
 **runServices**
 
@@ -47,6 +49,4 @@
 
 ##Publish npm
 
-plugman createpackagejson .
-
-npm publish .
+    npm publish

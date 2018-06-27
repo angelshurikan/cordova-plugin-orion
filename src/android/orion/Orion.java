@@ -101,7 +101,7 @@ public class Orion extends CordovaPlugin {
             }catch (Exception e){
                 callbackContext.error("Failed to test data");
             }
-        } else if(action.equals("makeCall")) {
+        } else if(action.equals("getCall")) {
             //@description: Make a phone call.
             try {
 
@@ -110,13 +110,13 @@ public class Orion extends CordovaPlugin {
                 //Bypass AppChooser
                 intent.setPackage(OrionTools.getDialerPackage(intent, this));
                 cordova.getActivity().startActivity(intent);
-                Log.d("Orion::Call::", "Calling :: " + number);
+                Log.d("Orion::getCall::", "Calling :: " + number);
                 callbackContext.success();
             } catch (NumberFormatException e) {
-                Log.d("Orion::Call::", "Call bad number ::" + args.getString(0)  );
+                Log.d("Orion::getCall::", "Call bad number ::" + args.getString(0)  );
                 callbackContext.error("Bad Number");
             }catch (Exception e){
-                Log.d("Orion::Call::", "Call failed" + e.getMessage() );
+                Log.d("Orion::getCall::", "Call failed" + e.getMessage() );
                 callbackContext.error("Failed :" + e.getMessage());
             }
             return true;

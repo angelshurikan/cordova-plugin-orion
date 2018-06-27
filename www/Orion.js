@@ -31,8 +31,8 @@ Orion.isDataActive = function (success, error) {
     exec(success, error, "Orion", "isDataActive");
 };
 
-Orion.makeCall = function (number, success, error) {
-    exec(success, error, "Orion", "makeCall", [number]);
+Orion.getCall = function (number, success, error) {
+    exec(success, error, "Orion", "getCall", [number]);
 };
 
 Orion.runServices = function (success, error) {
