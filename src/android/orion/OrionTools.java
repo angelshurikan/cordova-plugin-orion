@@ -25,9 +25,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Base64;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.PackageManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -44,76 +41,6 @@ import org.json.JSONObject;
 
 
 public class OrionTools {
-
-    // Attention: API 26 getDeviceId(); => getImei();
-    public static String getImei() {
-        Context context = this.cordova.getActivity().getApplicationContext();
-        TelephonyManager tManager = (TelephonyManager) cordova.getActivity().getSystemService(context.TELEPHONY_SERVICE);
-        return tManager.getDeviceId();
-    }
-
-    public static String getVersion() {
-        try {
-            PackageManager packageManager = this.cordova.getActivity().getPackageManager();
-            return packageManager.getPackageInfo(this.cordova.getActivity().getPackageName(), 0).versionName;
-        } catch (NameNotFoundException e) {
-            return "N/A";
-        }
-    }
-
-    /**
-     * Get an array containg all the apps installed.
-     *
-     * @return JSONArray containing a list of Apps :
-     * - id : the app id (package name)
-     * - name : the app name (label name)
-     * - img : the app icon path.
-     * - logo : the icon name.
-     */
-    public JSONArray getAppList() throws JSONException {
-        final PackageManager pm = cordova.getActivity().getPackageManager();
-        Intent intent = new Intent(Intent.ACTION_MAIN, null);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> resInfos = pm.queryIntentActivities(intent, 0);
-        // Eliminate duplicates by using hashset
-        HashSet<String> packageNames = new HashSet<String>(0);
-        List<ApplicationInfo> appInfos = new ArrayList<ApplicationInfo>(0);
-
-        //getting package names and adding them to the hashset
-        for (ResolveInfo resolveInfo : resInfos) {
-            packageNames.add(resolveInfo.activityInfo.packageName);
-        }
-
-        for (String packageName : packageNames) {
-            try {
-                appInfos.add(pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA));
-            } catch (NameNotFoundException e) {   }
-        }
-        //sort the list of apps by their names
-        Collections.sort(appInfos, new ApplicationInfo.DisplayNameComparator(pm));
-
-        JSONArray app_list = new JSONArray();
-        int cnt = 0;
-        String path = OrionTools.getDataPath(this);
-        OrionTools.makeRootDirectory(path + "/Applist/");
-        for (ApplicationInfo packageInfo : appInfos) {
-            JSONObject info = new JSONObject();
-            info.put("id", packageInfo.packageName);
-            info.put("name", packageInfo.loadLabel(pm));
-            String img_name = "/Applist/" + packageInfo.packageName + ".png";
-            info.put("img", path + img_name);
-            info.put("logo", img_name);
-            File cheakfile = new File(path + img_name);
-            if (!cheakfile.exists()) {
-                Drawable icon = pm.getApplicationIcon(packageInfo);
-                if (icon != null) {
-                    OrionTools.drawableTofile(icon, path + img_name);
-                }
-            }
-            app_list.put(cnt++, info);
-        }
-        return app_list;
-    }
 
     /**
      * Fires a javascript event.
