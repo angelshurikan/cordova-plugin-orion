@@ -58,7 +58,11 @@ public class Orion extends CordovaPlugin {
             return true;
         } else if(action.equals("coolMethod")) {
             String message = args.getString(0);
-            OrionTools.coolMethod(message, callbackContext);
+            if (message != null && message.length() > 0) {
+                callbackContext.success(message);
+            } else {
+                callbackContext.error("Expected one non-empty string argument.");
+            }
             return true;
         } else if(action.equals("getInfo")) {
             JSONObject r = new JSONObject();

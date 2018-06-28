@@ -45,22 +45,14 @@ import org.json.JSONObject;
 
 public class OrionTools {
 
-    public void coolMethod(String message, CallbackContext callbackContext) {
-        if (message != null && message.length() > 0) {
-            callbackContext.success(message);
-        } else {
-            callbackContext.error("Expected one non-empty string argument.");
-        }
-    }
-
     // Attention: API 26 getDeviceId(); => getImei();
-    public String getImei() {
+    public static String getImei() {
         Context context = this.cordova.getActivity().getApplicationContext();
         TelephonyManager tManager = (TelephonyManager) cordova.getActivity().getSystemService(context.TELEPHONY_SERVICE);
         return tManager.getDeviceId();
     }
 
-    public String getVersion() {
+    public static String getVersion() {
         try {
             PackageManager packageManager = this.cordova.getActivity().getPackageManager();
             return packageManager.getPackageInfo(this.cordova.getActivity().getPackageName(), 0).versionName;
@@ -128,7 +120,7 @@ public class OrionTools {
      * @param event
      * @param json
      */
-    public void fireEvent(final String event, JSONObject json) {
+    public static void fireEvent(final String event, JSONObject json) {
         final String str = json.toString();
         Log.d("Orion::Event", "Event: " + event + ", " + str);
 
