@@ -258,4 +258,22 @@ public class Orion extends CordovaPlugin {
         }
         return app_list;
     }
+
+    /**
+     * Fires a javascript event.
+     * @param event
+     * @param json
+     */
+    public void fireEvent(final String event, JSONObject json) {
+        final String str = json.toString();
+        Log.d("Orion::Event", "Event: " + event + ", " + str);
+
+        cordova.getActivity().runOnUiThread(new Runnable(){
+            @Override
+            public void run() {
+                String js = String.format("javascript:cordova.fireDocumentEvent(\"%s\", {\"data\":%s});", event, str);
+                webView.loadUrl( js );
+            }
+        });
+    }
 }
