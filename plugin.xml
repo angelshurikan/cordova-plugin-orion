@@ -2,7 +2,7 @@
 <plugin
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-orion"
-        version="18.06.31"
+        version="18.07.28"
         xmlns="http://apache.org/cordova/ns/plugins/1.0">
     <name>Orion</name>
     <description>Plugin Couteaux suisses</description>
@@ -46,7 +46,6 @@
         <config-file parent="/manifest/application/activity/intent-filter" target="AndroidManifest.xml">
             <category android:name="android.intent.category.HOME"/>
             <category android:name="android.intent.category.DEFAULT"/>
-            <data android:host="screen" android:scheme="elysium"/>
         </config-file>
         <source-file src="src/android/orion/Orion.java" target-dir="src/cordova-plugin-orion/Orion"/>
         <source-file src="src/android/orion/OrionTools.java"
