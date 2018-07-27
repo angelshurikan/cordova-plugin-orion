@@ -46,6 +46,7 @@
         <config-file parent="/manifest/application/activity/intent-filter" target="AndroidManifest.xml">
             <category android:name="android.intent.category.HOME"/>
             <category android:name="android.intent.category.DEFAULT"/>
+            <data android:host="screen" android:scheme="elysium"/>
         </config-file>
         <source-file src="src/android/orion/Orion.java" target-dir="src/cordova-plugin-orion/Orion"/>
         <source-file src="src/android/orion/OrionTools.java"
