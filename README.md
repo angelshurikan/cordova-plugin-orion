@@ -1,10 +1,10 @@
-#Cordova plugin Orion
+# Cordova plugin Orion
 
-##Install
+## Install
 
     cordova plugin add cordova-plugin-orion
 
-##Method
+## Method
 **alert**
 
     cordova.plugins.Orion.alert(content)

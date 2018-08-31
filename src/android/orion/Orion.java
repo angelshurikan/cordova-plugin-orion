@@ -1,16 +1,19 @@
 package org.apache.cordova.orion;
 
-import android.content.Intent;
-import android.content.pm.ResolveInfo;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.provider.Settings;
-import android.util.Log;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
+
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -117,7 +120,7 @@ public class Orion extends CordovaPlugin {
                 r.put("MODE", mode);
                 r.put("BRIGHNESS", brightness);
                 callbackContext.success(r);
-            } catch (Exception e) {
+            } catch (Settings.SettingNotFoundException e) {
                 Log.e("Orion::getBrightness::", e.getMessage());
                 callbackContext.error("Error::Orion::getBrightness::" + e.getMessage());
             }
