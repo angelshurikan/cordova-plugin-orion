@@ -21,20 +21,12 @@
 
     cordova.plugins.Orion.coolMethod(arg0, success, error)
     
-**getInfo**
-
-    cordova.plugins.Orion.getInfo(success, error)
-    
 **getApps**
 List of applications installed in the phone
 
     cordova.plugins.Orion.getApps(success, error)
     var success = function(listApps){}
     var error = function(e){}
-    
-**isDataActive**
-
-    cordova.plugins.Orion.isDataActive(success, error) 
     
 **getCall**
 
@@ -43,6 +35,18 @@ Call a phone number with the default phone application
     cordova.plugins.Orion.getCall(number, success, error)
     var success = function(){}
     var error = function(e){}
+    
+**getBrightness**
+
+    cordova.plugins.Orion.getBrightness(success, error)
+    
+**getInfo**
+
+    cordova.plugins.Orion.getInfo(success, error)
+    
+**isDataActive**
+
+    cordova.plugins.Orion.isDataActive(success, error) 
     
 **runServices**
 
