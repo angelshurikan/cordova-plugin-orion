@@ -116,6 +116,8 @@ public class Orion extends CordovaPlugin {
                 mode = Settings.System.getInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE); //this will return integer (0 or 1)
                 int brightness = Settings.System.getInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);  //returns integer value 0-255
                 JSONObject r = new JSONObject();
+                r.put("MODEL", android.os.Build.MODEL);
+                r.put("PRODUCT", android.os.Build.PRODUCT);
                 r.put("MODE", mode);
                 r.put("BRIGHNESS", brightness);
                 callbackContext.success(r);

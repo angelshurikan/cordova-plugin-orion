@@ -31,7 +31,7 @@ Orion.getCall = function (number, success, error) {
     exec(success, error, "Orion", "getCall", [number]);
 };
 
-Orion.getCall = function (number, success, error) {
+Orion.getBrightness = function (number, success, error) {
     exec(success, error, "Orion", "getBrightness", [number]);
 };
 
