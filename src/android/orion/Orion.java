@@ -69,7 +69,6 @@ public class Orion extends CordovaPlugin {
             return true;
         } else if (action.equals("getInfo")) {
             JSONObject r = new JSONObject();
-            r.put("TEST", "ok");
             r.put("MODEL", android.os.Build.MODEL);
             r.put("PRODUCT", android.os.Build.PRODUCT);
             r.put("MANUFACTURER", android.os.Build.MANUFACTURER);
@@ -92,21 +91,9 @@ public class Orion extends CordovaPlugin {
                 }
             });
             return true;
-        } else if (action.equals("isDataActive")) {
-            try {
-                //@description: test if data is active
-                Context context = cordova.getActivity().getApplicationContext();
-                Boolean data = OrionTools.isDataActive(context);
-                JSONObject r = new JSONObject();
-                r.put("data", data);
-                callbackContext.success(r);
-            } catch (Exception e) {
-                callbackContext.error("Failed to test data");
-            }
         } else if (action.equals("getCall")) {
             //@description: Call a phone number with the default phone application
             try {
-
                 String number = OrionTools.parsePhoneNumber(args.getString(0));
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(number));
                 //Bypass AppChooser
@@ -121,6 +108,31 @@ public class Orion extends CordovaPlugin {
                 callbackContext.error("Error::Orion::getCall::" + e.getMessage());
             }
             return true;
+        } else if (action.equals("getBrightness")) {
+            try {
+                int mode = -1;
+                mode = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE); //this will return integer (0 or 1)
+                int brightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);  //returns integer value 0-255
+                JSONObject r = new JSONObject();
+                r.put("MODE", mode);
+                r.put("BRIGHNESS", brightness);
+                callbackContext.success(r);
+            } catch (Exception e) {
+                Log.e("Orion::getBrightness::", e.getMessage());
+                callbackContext.error("Error::Orion::getBrightness::" + e.getMessage());
+            }
+            return true;
+        } else if (action.equals("isDataActive")) {
+            try {
+                //@description: test if data is active
+                Context context = cordova.getActivity().getApplicationContext();
+                Boolean data = OrionTools.isDataActive(context);
+                JSONObject r = new JSONObject();
+                r.put("data", data);
+                callbackContext.success(r);
+            } catch (Exception e) {
+                callbackContext.error("Failed to test data");
+            }
         } else if (action.equals("launchService")) {
             //@description: launch orion background services.
             try {

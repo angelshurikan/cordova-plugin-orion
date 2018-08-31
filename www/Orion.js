@@ -27,12 +27,16 @@ Orion.getApps = function (success, error) {
     exec(success, error, "Orion", "getApps");
 };
 
-Orion.isDataActive = function (success, error) {
-    exec(success, error, "Orion", "isDataActive");
+Orion.getCall = function (number, success, error) {
+    exec(success, error, "Orion", "getCall", [number]);
 };
 
 Orion.getCall = function (number, success, error) {
-    exec(success, error, "Orion", "getCall", [number]);
+    exec(success, error, "Orion", "getBrightness", [number]);
+};
+
+Orion.isDataActive = function (success, error) {
+    exec(success, error, "Orion", "isDataActive");
 };
 
 Orion.runServices = function (success, error) {
