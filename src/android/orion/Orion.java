@@ -42,8 +42,7 @@ public class Orion extends CordovaPlugin {
                 OrionStatusBarOverlay.add(cordova.getActivity());
                 callbackContext.success();
             } catch (Exception e) {
-                Log.e("Orion::blockStatusBarOverlay::", e.getMessage());
-                callbackContext.error("Failed block status bar overlay.");
+                callbackContext.error(e.getMessage());
             }
         } else if (action.equals("checkConnectedDevices")) {
             //@description: get list of connected devices.
@@ -52,8 +51,7 @@ public class Orion extends CordovaPlugin {
                 System.out.println("Connected Devices success " + result);
                 callbackContext.success(result);
             } catch (Exception e) {
-                Log.e("Orion::checkConnectedDevices::", e.getMessage());
-                callbackContext.error("Failed to get connected devices.");
+                callbackContext.error(e.getMessage());
             }
         } else if (action.equals("checkHotspot")) {
             //@description: verify if hotspot is active.
@@ -65,8 +63,7 @@ public class Orion extends CordovaPlugin {
                 r.put("active", response);
                 callbackContext.success(r);
             } catch (Exception e) {
-                Log.e("Orion::Hotspot::", e.getMessage());
-                callbackContext.error("Failed checking hotspot");
+                callbackContext.error(e.getMessage());
             }
             return true;
         } else if (action.equals("coolMethod")) {
@@ -95,8 +92,7 @@ public class Orion extends CordovaPlugin {
                         JSONArray array = getAppList();
                         callbackContext.success(array);
                     } catch (Exception e) {
-                        Log.e("Orion::getApps::", e.getMessage());
-                        callbackContext.error("Error::Orion::getApps::" + e.getMessage());
+                        callbackContext.error(e.getMessage());
                     }
                 }
             });
@@ -111,11 +107,9 @@ public class Orion extends CordovaPlugin {
                 cordova.getActivity().startActivity(intent);
                 callbackContext.success();
             } catch (NumberFormatException e) {
-                Log.e("Orion::getCall::", args.getString(0));
-                callbackContext.error("Error::Orion::getCall::" + args.getString(0));
+                callbackContext.error(e.getMessage());
             } catch (Exception e) {
-                Log.e("Orion::getCall::", e.getMessage());
-                callbackContext.error("Error::Orion::getCall::" + e.getMessage());
+                callbackContext.error(e.getMessage());
             }
             return true;
         } else if (action.equals("getBrightness")) {
@@ -128,8 +122,7 @@ public class Orion extends CordovaPlugin {
                 r.put("BRIGHNESS", brightness);
                 callbackContext.success(r);
             } catch (Settings.SettingNotFoundException e) {
-                Log.e("Orion::getBrightness::", e.getMessage());
-                callbackContext.error("Error::Orion::getBrightness::" + e.getMessage());
+                callbackContext.error(e.getMessage());
             }
             return true;
         } else if (action.equals("isDataActive")) {
@@ -141,7 +134,7 @@ public class Orion extends CordovaPlugin {
                 r.put("data", data);
                 callbackContext.success(r);
             } catch (Exception e) {
-                callbackContext.error("Failed to test data");
+                callbackContext.error(e.getMessage());
             }
         } else if (action.equals("launchService")) {
             //@description: launch orion background services.
@@ -153,8 +146,7 @@ public class Orion extends CordovaPlugin {
                 Log.d("Orion::", "ScreenService Active");
                 callbackContext.success();
             } catch (Exception e) {
-                Log.e("Orion::Service::", e.getMessage());
-                callbackContext.error("Failed launching Orion Services");
+                callbackContext.error(e.getMessage());
             }
             return true;
         } else if (action.equals("setBrightness")) {
@@ -169,8 +161,7 @@ public class Orion extends CordovaPlugin {
                 }
                 callbackContext.success();
             } catch (Exception e) {
-                Log.e("Orion::setBrightness::", e.getMessage());
-                callbackContext.error("Error::Orion::setBrightness::" + e.getMessage());
+                callbackContext.error(e.getMessage());
             }
             return true;
         } else if (action.equals("setHotspot")) {
@@ -211,15 +202,14 @@ public class Orion extends CordovaPlugin {
                             return;
                         }
                     } catch (JSONException e) {
-                        callbackContext.error("Bad arguments");
+                        callbackContext.error(e.getMessage());
 
                     } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                        callbackContext.error("Hotspot interface error");
+                        callbackContext.error(e.getMessage());
                     }
                 });
             } catch (Exception e) {
-                Log.e("Orion::Hotspot::", " Hotspot failed to toggle" + e.getMessage());
-                callbackContext.error(" Hotspot failed to toggle" + e.getMessage());
+                callbackContext.error(e.getMessage());
             }
             return true;
         }
