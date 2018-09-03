@@ -47,4 +47,6 @@ Orion.setHotspot = function (ssid, pwd, statut, success, error) {
     exec(success, error, "Orion", "setHotspot", [ssid, pwd, statut]);
 };
 
+
+
 module.exports = Orion;
