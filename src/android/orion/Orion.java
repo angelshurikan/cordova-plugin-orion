@@ -149,6 +149,22 @@ public class Orion extends CordovaPlugin {
                 callbackContext.error("Failed launching Orion Services");
             }
             return true;
+        } else if (action.equals("setBrightness")) {
+            try {
+                Integer mode = Integer.parseInt(args.getString(0));
+                Integer brightness = Integer.parseInt(args.getString(1));
+                if (mode == 1) {
+                    Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+                } else {
+                    Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+                    Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightness);
+                }
+                callbackContext.success();
+            } catch (Exception e) {
+                Log.e("Orion::setBrightness::", e.getMessage());
+                callbackContext.error("Error::Orion::setBrightness::" + e.getMessage());
+            }
+            return true;
         } else if (action.equals("setHotspot")) {
             //@description: set hotspot : setHotspot(ssid,psw,status)
             try {
@@ -275,6 +291,7 @@ public class Orion extends CordovaPlugin {
 
     /**
      * Fires a javascript event.
+     *
      * @param event
      * @param json
      */
@@ -282,11 +299,11 @@ public class Orion extends CordovaPlugin {
         final String str = json.toString();
         Log.d("Orion::Event", "Event: " + event + ", " + str);
 
-        cordova.getActivity().runOnUiThread(new Runnable(){
+        cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 String js = String.format("javascript:cordova.fireDocumentEvent(\"%s\", {\"data\":%s});", event, str);
-                webView.loadUrl( js );
+                webView.loadUrl(js);
             }
         });
     }

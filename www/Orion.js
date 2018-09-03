@@ -1,3 +1,4 @@
+cordova.define("cordova-plugin-orion.Orion", function(require, exports, module) {
 var exec = require('cordova/exec');
 
 function Orion() {
@@ -43,10 +44,13 @@ Orion.runServices = function (success, error) {
     exec(success, error, "Orion", "launchService");
 };
 
+Orion.setBrightness = function (auto, brightness, success, error) {
+    exec(success, error, "Orion", "setBrightness", [auto, brightness]);
+};
+
 Orion.setHotspot = function (ssid, pwd, statut, success, error) {
     exec(success, error, "Orion", "setHotspot", [ssid, pwd, statut]);
 };
 
-
-
 module.exports = Orion;
+});

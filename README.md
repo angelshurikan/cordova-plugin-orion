@@ -68,6 +68,13 @@ Call a phone number with the default phone application
     var success = function(data){}
     var error = function(e){}
     
+**setBrightness**
+Brightness is an integer variable (0-255), but dont use 0
+
+    cordova.plugins.Orion.setBrightness($auto (0 or 1), $brightness (1 to 255), success, error)
+    var success = function(data){}
+    var error = function(e){}
+    
 **setHotspot**
 
     cordova.plugins.Orion.setHotspot(ssid, pwd, statut, success, error)
