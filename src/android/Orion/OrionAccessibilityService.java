@@ -1,7 +1,5 @@
 package org.apache.cordova.orion;
 
-import org.apache.cordova.CordovaPlugin;
-
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.ComponentName;
@@ -41,13 +39,6 @@ public class OrionAccessibilityService extends AccessibilityService {
                 boolean isActivity = activityInfo != null;
                 if (isActivity) {
                     Log.i("CurrentActivity", componentName.flattenToShortString());
-                    cordova.getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String js = String.format("javascript:cordova.fireDocumentEvent(\"%s\", {\"data\":%s});", "resume", componentName.flattenToShortString());
-                            webView.loadUrl(js);
-                        }
-                    });
                 }
             }
         }
