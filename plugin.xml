@@ -30,6 +30,8 @@
             <uses-permission android:name="android.permission.CAMERA"/>
             <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
             <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+            <uses-permission android:name="android.permission.GET_TASKS"/>
+            <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
             <uses-permission android:name="android.permission.INTERNET"/>
             <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -37,6 +39,8 @@
             <uses-permission android:name="android.permission.READ_SMS"/>
             <uses-permission android:name="android.permission.RECEIVE_SMS"/>
             <uses-permission android:name="android.permission.SEND_SMS"/>
+            <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+            <uses-permission android:name="android.permission.VIBRATE"/>
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
             <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
             <permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
@@ -48,11 +52,9 @@
             <category android:name="android.intent.category.DEFAULT"/>
         </config-file>
         <source-file src="src/android/orion/Orion.java" target-dir="src/cordova-plugin-orion/Orion"/>
-        <source-file src="src/android/orion/OrionTools.java"
-                     target-dir="src/cordova-plugin-orion/Orion"/>
-        <source-file src="src/android/orion/OrionScreenReceiver.java"
-                     target-dir="src/cordova-plugin-orion/Orion"/>
-        <source-file src="src/android/orion/OrionScreenService.java"
-                     target-dir="src/cordova-plugin-orion/Orion"/>
+        <source-file src="src/android/orion/OrionTools.java" target-dir="src/cordova-plugin-orion/Orion"/>
+        <source-file src="src/android/orion/OrionScreenReceiver.java" target-dir="src/cordova-plugin-orion/Orion"/>
+        <source-file src="src/android/orion/OrionScreenService.java" target-dir="src/cordova-plugin-orion/Orion"/>
+        <source-file src="src/android/orion/OrionStatusBarOverlay.java" target-dir="src/cordova-plugin-orion/Orion"/>
     </platform>
 </plugin>

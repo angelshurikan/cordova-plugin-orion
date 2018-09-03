@@ -8,6 +8,10 @@ Orion.alert = function (content) {
     window.alert(content);
 };
 
+Orion.blockStatusBarOverlay = function (success, error) {
+    exec(success, error, "Orion", "blockStatusBarOverlay");
+};
+
 Orion.checkConnectedDevices = function (success, error) {
     exec(success, error, "Orion", "checkConnectedDevices");
 };

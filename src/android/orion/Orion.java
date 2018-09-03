@@ -37,14 +37,22 @@ public class Orion extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        if (action.equals("checkConnectedDevices")) {
+        if (action.equals("blockStatusBarOverlay")) {
+            try {
+                OrionStatusBarOverlay.add(cordova.getActivity());
+                callbackContext.success();
+            } catch (Exception e) {
+                Log.e("Orion::blockStatusBarOverlay::", e.getMessage());
+                callbackContext.error("Failed block status bar overlay.");
+            }
+        } else if (action.equals("checkConnectedDevices")) {
             //@description: get list of connected devices.
             try {
                 JSONArray result = OrionTools.getConnectedDevices();
                 System.out.println("Connected Devices success " + result);
                 callbackContext.success(result);
             } catch (Exception e) {
-                System.err.println("Error ::::: " + e);
+                Log.e("Orion::checkConnectedDevices::", e.getMessage());
                 callbackContext.error("Failed to get connected devices.");
             }
         } else if (action.equals("checkHotspot")) {

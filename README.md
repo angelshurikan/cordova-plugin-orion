@@ -10,6 +10,12 @@
     cordova.plugins.Orion.alert(content)
     var success = function(data){}
     var error = function(e){}
+    
+**blockStatusBarOverlay**
+
+    cordova.plugins.Orion.blockStatusBarOverlay(success, error)
+    var success = function(data){}
+    var error = function(e){}
 
 **checkConnectedDevices**
 
