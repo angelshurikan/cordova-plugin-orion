@@ -35,6 +35,10 @@ Orion.getBrightness = function (number, success, error) {
     exec(success, error, "Orion", "getBrightness", [number]);
 };
 
+Orion.setBrightness = function (number, success, error) {
+    exec(success, error, "Orion", "setBrightness", [number]);
+};
+
 Orion.isDataActive = function (success, error) {
     exec(success, error, "Orion", "isDataActive");
 };
