@@ -197,7 +197,6 @@ public class Orion extends CordovaPlugin {
                             intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
                             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             cordova.getActivity().startActivity(intent);
-                            callbackContext.success();
                             callbackContext.error("Permission denied");
                             return;
                         }
