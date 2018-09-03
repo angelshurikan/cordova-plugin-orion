@@ -39,8 +39,16 @@ public class Orion extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("blockStatusBarOverlay")) {
             try {
-                OrionStatusBarOverlay.add(cordova.getActivity());
-                callbackContext.success();
+                if (!Settings.canDrawOverlays(cordova.getActivity())) {
+                    Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION");
+                    intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    cordova.getActivity().startActivity(intent);
+                    callbackContext.error("Permission denied");
+                } else {
+                    OrionStatusBarOverlay.add(cordova.getActivity());
+                    callbackContext.success();
+                }
             } catch (Exception e) {
                 callbackContext.error(e.getMessage());
             }
@@ -192,7 +200,6 @@ public class Orion extends CordovaPlugin {
                             callbackContext.error("Failed to configure hotspot SSID:" + ssid + ":" + pswd);
                             return;
                         } else {
-                            Log.d("Orion::Hotspot::", "asking permissions");
                             Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
                             intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
                             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
