@@ -17,10 +17,6 @@
                 <param name="android-package" value="org.apache.cordova.orion.Orion"/>
             </feature>
         </config-file>
-        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
-        <config-file parent="/manifest/application" target="AndroidManifest.xml">
-            <service android:enabled="true" android:name="org.apache.cordova.orion.OrionScreenService"/>
-        </config-file>
         <config-file parent="/manifest" target="AndroidManifest.xml">
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
