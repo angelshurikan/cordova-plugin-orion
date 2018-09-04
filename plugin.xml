@@ -47,9 +47,19 @@
             <category android:name="android.intent.category.HOME"/>
             <category android:name="android.intent.category.DEFAULT"/>
         </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <service
+                    android:name="org.apache.cordova.orion.OrionAccessibilityService"
+                    android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+                <intent-filter>
+                    <action android:name="android.accessibilityservice.AccessibilityService"/>
+                </intent-filter>
+            </service>
+        </config-file>
         <source-file src="src/android/orion/Orion.java" target-dir="src/cordova-plugin-orion/Orion"/>
         <source-file src="src/android/orion/OrionTools.java" target-dir="src/cordova-plugin-orion/Orion"/>
-        <source-file src="src/android/orion/OrionAccessibilityService.java" target-dir="src/cordova-plugin-orion/Orion"/>
+        <source-file src="src/android/orion/OrionAccessibilityService.java"
+                     target-dir="src/cordova-plugin-orion/Orion"/>
         <source-file src="src/android/orion/OrionStatusBarOverlay.java" target-dir="src/cordova-plugin-orion/Orion"/>
     </platform>
 </plugin>
