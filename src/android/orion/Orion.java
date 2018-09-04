@@ -144,19 +144,6 @@ public class Orion extends CordovaPlugin {
             } catch (Exception e) {
                 callbackContext.error(e.getMessage());
             }
-        } else if (action.equals("launchService")) {
-            //@description: launch orion background services.
-            try {
-                Context context = cordova.getActivity().getApplicationContext();
-                //@description: Screen Activated Service
-                Intent serviceIntent = new Intent(context, OrionScreenService.class);
-                context.startService(serviceIntent);
-                Log.d("Orion::", "ScreenService Active");
-                callbackContext.success();
-            } catch (Exception e) {
-                callbackContext.error(e.getMessage());
-            }
-            return true;
         } else if (action.equals("setBrightness")) {
             try {
                 Integer mode = Integer.parseInt(args.getString(0));
