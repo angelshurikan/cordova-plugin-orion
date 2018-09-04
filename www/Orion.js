@@ -1,5 +1,6 @@
 cordova.define("cordova-plugin-orion.Orion", function(require, exports, module) {
 cordova.define("cordova-plugin-orion.Orion", function(require, exports, module) {
+cordova.define("cordova-plugin-orion.Orion", function(require, exports, module) {
 var exec = require('cordova/exec');
 
 function Orion() {
@@ -58,6 +59,8 @@ Orion.setHotspot = function (ssid, pwd, statut, success, error) {
 };
 
 module.exports = Orion;
+});
+
 });
 
 });
