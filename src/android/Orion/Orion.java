@@ -37,15 +37,29 @@ public class Orion extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        if (action.equals("checkConnectedDevices")) {
+        if (action.equals("blockStatusBarOverlay")) {
+            try {
+                if (!Settings.canDrawOverlays(cordova.getActivity())) {
+                    Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION");
+                    intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    cordova.getActivity().startActivity(intent);
+                    callbackContext.error("Permission denied");
+                } else {
+                    OrionStatusBarOverlay.add(cordova.getActivity());
+                    callbackContext.success();
+                }
+            } catch (Exception e) {
+                callbackContext.error(e.getMessage());
+            }
+        } else if (action.equals("checkConnectedDevices")) {
             //@description: get list of connected devices.
             try {
                 JSONArray result = OrionTools.getConnectedDevices();
                 System.out.println("Connected Devices success " + result);
                 callbackContext.success(result);
             } catch (Exception e) {
-                System.err.println("Error ::::: " + e);
-                callbackContext.error("Failed to get connected devices.");
+                callbackContext.error(e.getMessage());
             }
         } else if (action.equals("checkHotspot")) {
             //@description: verify if hotspot is active.
@@ -57,8 +71,7 @@ public class Orion extends CordovaPlugin {
                 r.put("active", response);
                 callbackContext.success(r);
             } catch (Exception e) {
-                Log.e("Orion::Hotspot::", e.getMessage());
-                callbackContext.error("Failed checking hotspot");
+                callbackContext.error(e.getMessage());
             }
             return true;
         } else if (action.equals("coolMethod")) {
@@ -87,8 +100,7 @@ public class Orion extends CordovaPlugin {
                         JSONArray array = getAppList();
                         callbackContext.success(array);
                     } catch (Exception e) {
-                        Log.e("Orion::getApps::", e.getMessage());
-                        callbackContext.error("Error::Orion::getApps::" + e.getMessage());
+                        callbackContext.error(e.getMessage());
                     }
                 }
             });
@@ -103,11 +115,9 @@ public class Orion extends CordovaPlugin {
                 cordova.getActivity().startActivity(intent);
                 callbackContext.success();
             } catch (NumberFormatException e) {
-                Log.e("Orion::getCall::", args.getString(0));
-                callbackContext.error("Error::Orion::getCall::" + args.getString(0));
+                callbackContext.error(e.getMessage());
             } catch (Exception e) {
-                Log.e("Orion::getCall::", e.getMessage());
-                callbackContext.error("Error::Orion::getCall::" + e.getMessage());
+                callbackContext.error(e.getMessage());
             }
             return true;
         } else if (action.equals("getBrightness")) {
@@ -120,8 +130,7 @@ public class Orion extends CordovaPlugin {
                 r.put("BRIGHNESS", brightness);
                 callbackContext.success(r);
             } catch (Settings.SettingNotFoundException e) {
-                Log.e("Orion::getBrightness::", e.getMessage());
-                callbackContext.error("Error::Orion::getBrightness::" + e.getMessage());
+                callbackContext.error(e.getMessage());
             }
             return true;
         } else if (action.equals("isDataActive")) {
@@ -133,20 +142,21 @@ public class Orion extends CordovaPlugin {
                 r.put("data", data);
                 callbackContext.success(r);
             } catch (Exception e) {
-                callbackContext.error("Failed to test data");
+                callbackContext.error(e.getMessage());
             }
-        } else if (action.equals("launchService")) {
-            //@description: launch orion background services.
+        } else if (action.equals("setBrightness")) {
             try {
-                Context context = cordova.getActivity().getApplicationContext();
-                //@description: Screen Activated Service
-                Intent serviceIntent = new Intent(context, OrionScreenService.class);
-                context.startService(serviceIntent);
-                Log.d("Orion::", "ScreenService Active");
+                Integer mode = Integer.parseInt(args.getString(0));
+                Integer brightness = Integer.parseInt(args.getString(1));
+                if (mode == 1) {
+                    Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+                } else {
+                    Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+                    Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightness);
+                }
                 callbackContext.success();
             } catch (Exception e) {
-                Log.e("Orion::Service::", e.getMessage());
-                callbackContext.error("Failed launching Orion Services");
+                callbackContext.error(e.getMessage());
             }
             return true;
         } else if (action.equals("setHotspot")) {
@@ -177,25 +187,22 @@ public class Orion extends CordovaPlugin {
                             callbackContext.error("Failed to configure hotspot SSID:" + ssid + ":" + pswd);
                             return;
                         } else {
-                            Log.d("Orion::Hotspot::", "asking permissions");
                             Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
                             intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
                             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             cordova.getActivity().startActivity(intent);
-                            callbackContext.success();
                             callbackContext.error("Permission denied");
                             return;
                         }
                     } catch (JSONException e) {
-                        callbackContext.error("Bad arguments");
+                        callbackContext.error(e.getMessage());
 
                     } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                        callbackContext.error("Hotspot interface error");
+                        callbackContext.error(e.getMessage());
                     }
                 });
             } catch (Exception e) {
-                Log.e("Orion::Hotspot::", " Hotspot failed to toggle" + e.getMessage());
-                callbackContext.error(" Hotspot failed to toggle" + e.getMessage());
+                callbackContext.error(e.getMessage());
             }
             return true;
         }
@@ -275,6 +282,7 @@ public class Orion extends CordovaPlugin {
 
     /**
      * Fires a javascript event.
+     *
      * @param event
      * @param json
      */
@@ -282,11 +290,11 @@ public class Orion extends CordovaPlugin {
         final String str = json.toString();
         Log.d("Orion::Event", "Event: " + event + ", " + str);
 
-        cordova.getActivity().runOnUiThread(new Runnable(){
+        cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 String js = String.format("javascript:cordova.fireDocumentEvent(\"%s\", {\"data\":%s});", event, str);
-                webView.loadUrl( js );
+                webView.loadUrl(js);
             }
         });
     }
