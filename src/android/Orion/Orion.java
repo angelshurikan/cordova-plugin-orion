@@ -330,13 +330,13 @@ public class Orion extends CordovaPlugin {
             accessibilityEnabled = Settings.Secure.getInt(
                     mContext.getApplicationContext().getContentResolver(),
                     android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
-            Log.v("Orion::", "AccessibilityEnabled = " + accessibilityEnabled);
+            Log.d("Orion::", "AccessibilityEnabled = " + accessibilityEnabled);
         } catch (Settings.SettingNotFoundException e) {
             Log.e("Orion::", "Error finding setting, default accessibility to not found: " + e.getMessage());
         }
         TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
         if (accessibilityEnabled == 1) {
-            Log.v("Orion::", "***ACCESSIBILITY IS ENABLED*** -----------------");
+            Log.d("Orion::", "Accessibility is enabled");
             String settingValue = Settings.Secure.getString(
                     mContext.getApplicationContext().getContentResolver(),
                     Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
@@ -344,15 +344,15 @@ public class Orion extends CordovaPlugin {
                 mStringColonSplitter.setString(settingValue);
                 while (mStringColonSplitter.hasNext()) {
                     String accessibilityService = mStringColonSplitter.next();
-                    Log.v("Orion::", "-------------- > accessibilityService :: " + accessibilityService + " " + service);
+                    Log.d("Orion::", "accessibilityService:: " + accessibilityService + " " + service);
                     if (accessibilityService.equalsIgnoreCase(service)) {
-                        Log.v("Orion::", "We've found the correct setting - accessibility is switched on!");
+                        Log.d("Orion::", "We've found the correct setting - accessibility is switched on!");
                         return true;
                     }
                 }
             }
         } else {
-            Log.v("Orion::", "***ACCESSIBILITY IS DISABLED***");
+            Log.v("Orion::", "Accessibility is disabled");
         }
         return false;
     }

@@ -38,7 +38,7 @@ public class OrionAccessibilityService extends AccessibilityService {
                 ActivityInfo activityInfo = tryGetActivity(componentName);
                 boolean isActivity = activityInfo != null;
                 if (isActivity) {
-                    Log.i("CurrentActivity", componentName.flattenToShortString());
+                    Log.v("CurrentActivity", componentName.flattenToShortString());
                 }
             }
         }
