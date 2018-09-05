@@ -352,7 +352,7 @@ public class Orion extends CordovaPlugin {
                 }
             }
         } else {
-            Log.v("Orion::", "Accessibility is disabled");
+            Log.d("Orion::", "Accessibility is disabled");
         }
         return false;
     }

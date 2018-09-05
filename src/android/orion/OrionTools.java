@@ -245,12 +245,12 @@ public class OrionTools {
 
         Method[] mMethods = mWifiManager.getClass().getDeclaredMethods();
 
-        Log.v("Orion::APNetwork::", "Creating hotspot");
+        Log.d("Orion::APNetwork::", "Creating hotspot");
         for (Method mMethod : mMethods) {
             if (mMethod.getName().equals("setWifiApEnabled")) {
                 WifiConfiguration netConfig = new WifiConfiguration();
 
-                Log.i("Orion::APNetwork::", "Applying hotspot settings with security: WPA");
+                Log.d("Orion::APNetwork::", "Applying hotspot settings with security: WPA");
                 netConfig.SSID = SSID;
                 netConfig.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
                 netConfig.SSID = SSID;
@@ -275,7 +275,7 @@ public class OrionTools {
                     mWifiManager.disconnect();
                     mWifiManager.reconnect();
                     mWifiManager.saveConfiguration();
-                    Log.v("Orion::APNetwork::", "Successfully created hotspot");
+                    Log.d("Orion::APNetwork::", "Successfully created hotspot");
                     return true;
 
                 } catch (Exception e) {
