@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -143,6 +144,11 @@ public class Orion extends CordovaPlugin {
             } catch (Exception e) {
                 callbackContext.error(e.getMessage());
             }
+        } else if (action.equals("permAccessibilityService")) {
+            if (!isAccessibilitySettingsOn(cordova.getActivity().getApplicationContext())) {
+                cordova.getActivity().startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+            }
+            callbackContext.success();
         } else if (action.equals("setBrightness")) {
             try {
                 Context context = cordova.getActivity().getApplicationContext();
@@ -309,5 +315,45 @@ public class Orion extends CordovaPlugin {
                 webView.loadUrl(js);
             }
         });
+    }
+
+    /**
+     * @param mContext
+     * @return
+     * @description To check if service is enabled
+     */
+    private boolean isAccessibilitySettingsOn(Context mContext) {
+        int accessibilityEnabled = 0;
+        final String service = cordova.getActivity().getPackageName() + "/" + OrionAccessibilityService.class.getCanonicalName();
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(
+                    mContext.getApplicationContext().getContentResolver(),
+                    android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
+            Log.v("Orion::", "AccessibilityEnabled = " + accessibilityEnabled);
+        } catch (Settings.SettingNotFoundException e) {
+            Log.e("Orion::", "Error finding setting, default accessibility to not found: " + e.getMessage());
+        }
+        TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
+        if (accessibilityEnabled == 1) {
+            Log.v("Orion::", "***ACCESSIBILITY IS ENABLED*** -----------------");
+            String settingValue = Settings.Secure.getString(
+                    mContext.getApplicationContext().getContentResolver(),
+                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+            if (settingValue != null) {
+                mStringColonSplitter.setString(settingValue);
+                while (mStringColonSplitter.hasNext()) {
+                    String accessibilityService = mStringColonSplitter.next();
+
+                    Log.v("Orion::", "-------------- > accessibilityService :: " + accessibilityService + " " + service);
+                    if (accessibilityService.equalsIgnoreCase(service)) {
+                        Log.v("Orion::", "We've found the correct setting - accessibility is switched on!");
+                        return true;
+                    }
+                }
+            }
+        } else {
+            Log.v("Orion::", "***ACCESSIBILITY IS DISABLED***");
+        }
+        return false;
     }
 }

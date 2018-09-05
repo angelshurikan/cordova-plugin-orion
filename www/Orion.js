@@ -44,6 +44,10 @@ Orion.isDataActive = function (success, error) {
     exec(success, error, "Orion", "isDataActive");
 };
 
+Orion.permAccessibilityService = function (success, error) {
+    exec(success, error, "Orion", "permAccessibilityService");
+};
+
 Orion.setBrightness = function (auto, brightness, success, error) {
     exec(success, error, "Orion", "setBrightness", [auto, brightness]);
 };
