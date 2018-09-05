@@ -38,7 +38,11 @@ public class OrionAccessibilityService extends AccessibilityService {
                 ActivityInfo activityInfo = tryGetActivity(componentName);
                 boolean isActivity = activityInfo != null;
                 if (isActivity) {
-                    Log.v("CurrentActivity", componentName.flattenToShortString());
+                    Log.d("Orion::CurrentActivity", componentName.flattenToShortString());
+                    if(componentName.flattenToShortString() != "fr.mylocalphone.elysium/.MainActivity"){
+                        Boolean d = OrionTools.openApp(this, "fr.mylocalphone.elysium");
+                        if(!d) Log.d("Orion::ScreenService::","Elysium launch failed");
+                    }
                 }
             }
         }
