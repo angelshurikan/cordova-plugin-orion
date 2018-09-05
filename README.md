@@ -42,16 +42,16 @@ List of applications installed in the phone
     var success = function(data){}
     var error = function(e){}
     
+**getBrightness**
+
+    cordova.plugins.Orion.getBrightness(success, error)
+    var success = function(data){}
+    var error = function(e){}
+    
 **getCall**
 Call a phone number with the default phone application  
 
     cordova.plugins.Orion.getCall(number, success, error)
-    var success = function(data){}
-    var error = function(e){}
-    
-**getBrightness**
-
-    cordova.plugins.Orion.getBrightness(success, error)
     var success = function(data){}
     var error = function(e){}
     

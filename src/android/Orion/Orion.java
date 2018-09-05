@@ -64,7 +64,6 @@ public class Orion extends CordovaPlugin {
         } else if (action.equals("checkHotspot")) {
             //@description: verify if hotspot is active.
             try {
-                Log.d("Orion::Hotspot::", "checking");
                 Context context = cordova.getActivity().getApplicationContext();
                 boolean response = OrionTools.isWifiApEnabled(context);
                 JSONObject r = new JSONObject();
@@ -82,16 +81,6 @@ public class Orion extends CordovaPlugin {
                 callbackContext.error("Expected one non-empty string argument.");
             }
             return true;
-        } else if (action.equals("getInfo")) {
-            JSONObject r = new JSONObject();
-            r.put("MODEL", android.os.Build.MODEL);
-            r.put("PRODUCT", android.os.Build.PRODUCT);
-            r.put("MANUFACTURER", android.os.Build.MANUFACTURER);
-            r.put("SERIAL", android.os.Build.SERIAL);
-            r.put("IMEI", getImei());
-            r.put("VERSION", getVersion());
-            callbackContext.success(r);
-            return true;
         } else if (action.equals("getApps")) {
             //@description: List of applications installed in the phone
             cordova.getThreadPool().execute(new Runnable() {
@@ -104,6 +93,19 @@ public class Orion extends CordovaPlugin {
                     }
                 }
             });
+            return true;
+        } else if (action.equals("getBrightness")) {
+            try {
+                int mode = -1;
+                mode = Settings.System.getInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE); //this will return integer (0 or 1)
+                int brightness = Settings.System.getInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);  //returns integer value 0-255
+                JSONObject r = new JSONObject();
+                r.put("MODE", mode);
+                r.put("BRIGHNESS", brightness);
+                callbackContext.success(r);
+            } catch (Settings.SettingNotFoundException e) {
+                callbackContext.error(e.getMessage());
+            }
             return true;
         } else if (action.equals("getCall")) {
             //@description: Call a phone number with the default phone application
@@ -120,18 +122,15 @@ public class Orion extends CordovaPlugin {
                 callbackContext.error(e.getMessage());
             }
             return true;
-        } else if (action.equals("getBrightness")) {
-            try {
-                int mode = -1;
-                mode = Settings.System.getInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE); //this will return integer (0 or 1)
-                int brightness = Settings.System.getInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);  //returns integer value 0-255
-                JSONObject r = new JSONObject();
-                r.put("MODE", mode);
-                r.put("BRIGHNESS", brightness);
-                callbackContext.success(r);
-            } catch (Settings.SettingNotFoundException e) {
-                callbackContext.error(e.getMessage());
-            }
+        } else if (action.equals("getInfo")) {
+            JSONObject r = new JSONObject();
+            r.put("MODEL", android.os.Build.MODEL);
+            r.put("PRODUCT", android.os.Build.PRODUCT);
+            r.put("MANUFACTURER", android.os.Build.MANUFACTURER);
+            r.put("SERIAL", android.os.Build.SERIAL);
+            r.put("IMEI", getImei());
+            r.put("VERSION", getVersion());
+            callbackContext.success(r);
             return true;
         } else if (action.equals("isDataActive")) {
             try {

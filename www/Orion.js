@@ -1,5 +1,4 @@
 cordova.define("cordova-plugin-orion.Orion", function(require, exports, module) {
-cordova.define("cordova-plugin-orion.Orion", function(require, exports, module) {
 var exec = require('cordova/exec');
 
 function Orion() {
@@ -25,28 +24,24 @@ Orion.coolMethod = function (arg0, success, error) {
     exec(success, error, "Orion", "coolMethod", [arg0]);
 };
 
-Orion.getInfo = function (success, error) {
-    exec(success, error, "Orion", "getInfo");
-};
-
 Orion.getApps = function (success, error) {
     exec(success, error, "Orion", "getApps");
-};
-
-Orion.getCall = function (number, success, error) {
-    exec(success, error, "Orion", "getCall", [number]);
 };
 
 Orion.getBrightness = function (number, success, error) {
     exec(success, error, "Orion", "getBrightness", [number]);
 };
 
-Orion.isDataActive = function (success, error) {
-    exec(success, error, "Orion", "isDataActive");
+Orion.getCall = function (number, success, error) {
+    exec(success, error, "Orion", "getCall", [number]);
 };
 
-Orion.runServices = function (success, error) {
-    exec(success, error, "Orion", "launchService");
+Orion.getInfo = function (success, error) {
+    exec(success, error, "Orion", "getInfo");
+};
+
+Orion.isDataActive = function (success, error) {
+    exec(success, error, "Orion", "isDataActive");
 };
 
 Orion.setBrightness = function (auto, brightness, success, error) {
@@ -58,6 +53,4 @@ Orion.setHotspot = function (ssid, pwd, statut, success, error) {
 };
 
 module.exports = Orion;
-});
-
 });
