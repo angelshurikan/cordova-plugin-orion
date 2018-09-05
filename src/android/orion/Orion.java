@@ -145,15 +145,28 @@ public class Orion extends CordovaPlugin {
             }
         } else if (action.equals("setBrightness")) {
             try {
-                Integer mode = Integer.parseInt(args.getString(0));
-                Integer brightness = Integer.parseInt(args.getString(1));
-                if (mode == 1) {
-                    Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+                Context context = cordova.getActivity().getApplicationContext();
+                Class systemClass = Settings.System.class;
+                Method canWriteMethod = systemClass.getDeclaredMethod("canWrite", Context.class);
+                boolean retVal = (Boolean) canWriteMethod.invoke(null, cordova.getActivity());
+                // verify write access
+                if (retVal) {
+                    Integer mode = Integer.parseInt(args.getString(0));
+                    Integer brightness = Integer.parseInt(args.getString(1));
+                    if (mode == 1) {
+                        Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+                    } else {
+                        Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+                        Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightness);
+                    }
+                    callbackContext.success();
                 } else {
-                    Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
-                    Settings.System.putInt(cordova.getActivity().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightness);
+                    Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
+                    intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    cordova.getActivity().startActivity(intent);
+                    callbackContext.error("Permission denied");
                 }
-                callbackContext.success();
             } catch (Exception e) {
                 callbackContext.error(e.getMessage());
             }
