@@ -270,6 +270,7 @@ public class Orion extends CordovaPlugin {
             try {
                 appInfos.add(pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA));
             } catch (NameNotFoundException e) {
+                Log.e("Orion::", "getAppList::" + e.getMessage());
             }
         }
         //sort the list of apps by their names
@@ -343,7 +344,6 @@ public class Orion extends CordovaPlugin {
                 mStringColonSplitter.setString(settingValue);
                 while (mStringColonSplitter.hasNext()) {
                     String accessibilityService = mStringColonSplitter.next();
-
                     Log.v("Orion::", "-------------- > accessibilityService :: " + accessibilityService + " " + service);
                     if (accessibilityService.equalsIgnoreCase(service)) {
                         Log.v("Orion::", "We've found the correct setting - accessibility is switched on!");
