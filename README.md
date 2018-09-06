@@ -74,6 +74,14 @@ To check if service is enabled
     cordova.plugins.Orion.permAccessibilityService(success, error)
     var success = function(data){}
     var error = function(e){}
+    
+**setAppLock**
+
+Active/desactive le applock (true ou false)
+
+    cordova.plugins.Orion.setAppLock(applock, success, error)
+    var success = function(data){}
+    var error = function(e){} 
        
 **setBrightness**
 Brightness is an integer variable (0-255), but dont use 0

@@ -48,6 +48,10 @@ Orion.permAccessibilityService = function (success, error) {
     exec(success, error, "Orion", "permAccessibilityService");
 };
 
+Orion.setAppLock = function (applock, success, error) {
+    exec(success, error, "Orion", "setAppLock", [applock]);
+};
+
 Orion.setBrightness = function (auto, brightness, success, error) {
     exec(success, error, "Orion", "setBrightness", [auto, brightness]);
 };

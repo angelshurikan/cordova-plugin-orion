@@ -34,6 +34,7 @@ import java.util.List;
  * This class echoes a string called from JavaScript.
  */
 public class Orion extends CordovaPlugin {
+
     private final boolean BETA = false;
 
     @Override
@@ -149,6 +150,17 @@ public class Orion extends CordovaPlugin {
                 cordova.getActivity().startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
             }
             callbackContext.success();
+        } else if (action.equals("setAppLock")) {
+            try {
+                Boolean applock = Boolean.parseBoolean(args.getString(0));
+                Log.d("Orion::", "applockarg:" + applock);
+                Log.d("Orion::", "applock:" + OrionTools.applock);
+                OrionTools.applock = applock;
+                Log.d("Orion::", "applock:" + OrionTools.applock);
+                callbackContext.success();
+            } catch (Exception e) {
+                callbackContext.error(e.getMessage());
+            }
         } else if (action.equals("setBrightness")) {
             try {
                 Context context = cordova.getActivity().getApplicationContext();
@@ -180,7 +192,6 @@ public class Orion extends CordovaPlugin {
         } else if (action.equals("setHotspot")) {
             //@description: set hotspot : setHotspot(ssid,psw,status)
             try {
-                Log.d("Orion::Hotspot::", "toggling");
                 cordova.getThreadPool().execute(() -> {
                     try {
                         Context context = cordova.getActivity().getApplicationContext();
@@ -346,7 +357,7 @@ public class Orion extends CordovaPlugin {
                     String accessibilityService = mStringColonSplitter.next();
                     //Log.d("Orion::", "accessibilityService:: " + accessibilityService + " " + service);
                     if (accessibilityService.equalsIgnoreCase(service)) {
-                        Log.d("Orion::", "We've found the correct setting - accessibility is switched on!");
+                        //Log.d("Orion::", "We've found the correct setting - accessibility is switched on!");
                         return true;
                     }
                 }

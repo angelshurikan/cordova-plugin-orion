@@ -42,6 +42,8 @@ import org.json.JSONObject;
 
 public class OrionTools {
 
+    public static boolean applock = true;
+
     /**
      * Create an image file from a drawable icon.
      *
@@ -245,12 +247,9 @@ public class OrionTools {
 
         Method[] mMethods = mWifiManager.getClass().getDeclaredMethods();
 
-        Log.d("Orion::APNetwork::", "Creating hotspot");
         for (Method mMethod : mMethods) {
             if (mMethod.getName().equals("setWifiApEnabled")) {
                 WifiConfiguration netConfig = new WifiConfiguration();
-
-                Log.d("Orion::APNetwork::", "Applying hotspot settings with security: WPA");
                 netConfig.SSID = SSID;
                 netConfig.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
                 netConfig.SSID = SSID;
@@ -269,15 +268,12 @@ public class OrionTools {
                 netConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
                 netConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
                 netConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
-
                 try {
                     mMethod.invoke(mWifiManager, netConfig, true);
                     mWifiManager.disconnect();
                     mWifiManager.reconnect();
                     mWifiManager.saveConfiguration();
-                    Log.d("Orion::APNetwork::", "Successfully created hotspot");
                     return true;
-
                 } catch (Exception e) {
                     Log.e("Orion::APNetwork::", "Unknown error during saving wifi config.", e);
                 }
@@ -318,6 +314,7 @@ public class OrionTools {
 
     /**
      * Test if mobile data is active
+     *
      * @param context
      * @return
      */
