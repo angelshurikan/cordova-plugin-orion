@@ -78,8 +78,9 @@ To check if service is enabled
 **setAppLock**
 
 Active/desactive le applock (true ou false)
+Liste des applications bloquées (String)
 
-    cordova.plugins.Orion.setAppLock(applock, success, error)
+    cordova.plugins.Orion.setAppLock(applock, listapplock, success, error)
     var success = function(data){}
     var error = function(e){} 
        

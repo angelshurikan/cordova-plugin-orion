@@ -153,10 +153,9 @@ public class Orion extends CordovaPlugin {
         } else if (action.equals("setAppLock")) {
             try {
                 Boolean applock = Boolean.parseBoolean(args.getString(0));
-                Log.d("Orion::", "applockarg:" + applock);
-                Log.d("Orion::", "applock:" + OrionTools.applock);
+                String listapplock = args.getString(1);
                 OrionTools.applock = applock;
-                Log.d("Orion::", "applock:" + OrionTools.applock);
+                OrionTools.listapplock = listapplock;
                 callbackContext.success();
             } catch (Exception e) {
                 callbackContext.error(e.getMessage());

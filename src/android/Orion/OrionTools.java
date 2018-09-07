@@ -44,6 +44,8 @@ public class OrionTools {
 
     public static boolean applock = true;
 
+    public static String listapplock = "";
+
     /**
      * Create an image file from a drawable icon.
      *

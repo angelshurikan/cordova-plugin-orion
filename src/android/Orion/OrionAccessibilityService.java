@@ -38,11 +38,12 @@ public class OrionAccessibilityService extends AccessibilityService {
                 ActivityInfo activityInfo = tryGetActivity(componentName);
                 boolean isActivity = activityInfo != null;
                 if (isActivity) {
-                    Log.d("Orion::CurrentActivity", componentName.flattenToShortString());
-                    String input = componentName.flattenToShortString();
-                    String countString = "fr.mylocalphone.elysium";
-                    int number = input.split("\\Q" + countString + "\\E", -1).length - 1;
-                    if (number == 0) {
+                    String countString = componentName.getPackageName();
+                    Log.d("Orion::", "countString " + countString);
+                    Log.d("Orion::", "OrionTools.listapplock " + OrionTools.listapplock);
+                    int number = OrionTools.listapplock.split("\\Q" + countString + "\\E", -1).length - 1;
+                    Log.d("Orion::", "number " + number);
+                    if (number > 0) {
                         if (OrionTools.applock) {
                             Log.d("Orion::", "APPLOCK:" + OrionTools.applock);
                             Boolean d = OrionTools.openApp(this, "fr.mylocalphone.elysium");
