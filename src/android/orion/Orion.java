@@ -41,7 +41,9 @@ public class Orion extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("blockStatusBarOverlay")) {
             try {
-                if (!Settings.canDrawOverlays(cordova.getActivity())) {
+                if (OrionTools.applock) {
+                    callbackContext.error("Permission denied");
+                } else if (!Settings.canDrawOverlays(cordova.getActivity())) {
                     Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION");
                     intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -147,9 +149,15 @@ public class Orion extends CordovaPlugin {
             }
         } else if (action.equals("permAccessibilityService")) {
             if (!isAccessibilitySettingsOn(cordova.getActivity().getApplicationContext())) {
-                cordova.getActivity().startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                if (!OrionTools.applock) {
+                    cordova.getActivity().startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
+                    callbackContext.success();
+                } else {
+                    callbackContext.error("Permission denied");
+                }
+            } else {
+                callbackContext.success();
             }
-            callbackContext.success();
         } else if (action.equals("setAppLock")) {
             try {
                 Boolean applock = Boolean.parseBoolean(args.getString(0));
@@ -178,11 +186,15 @@ public class Orion extends CordovaPlugin {
                     }
                     callbackContext.success();
                 } else {
-                    Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
-                    intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    cordova.getActivity().startActivity(intent);
-                    callbackContext.error("Permission denied");
+                    if (OrionTools.applock) {
+                        callbackContext.error("Permission denied");
+                    } else {
+                        Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
+                        intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        cordova.getActivity().startActivity(intent);
+                        callbackContext.error("Permission denied");
+                    }
                 }
             } catch (Exception e) {
                 callbackContext.error(e.getMessage());
@@ -215,12 +227,16 @@ public class Orion extends CordovaPlugin {
                             callbackContext.error("Failed to configure hotspot SSID:" + ssid + ":" + pswd);
                             return;
                         } else {
-                            Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
-                            intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            cordova.getActivity().startActivity(intent);
-                            callbackContext.error("Permission denied");
-                            return;
+                            if (OrionTools.applock) {
+                                callbackContext.error("Permission denied");
+                            } else {
+                                Intent intent = new Intent("android.settings.action.MANAGE_WRITE_SETTINGS");
+                                intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
+                                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                cordova.getActivity().startActivity(intent);
+                                callbackContext.error("Permission denied");
+                                return;
+                            }
                         }
                     } catch (JSONException e) {
                         callbackContext.error(e.getMessage());
