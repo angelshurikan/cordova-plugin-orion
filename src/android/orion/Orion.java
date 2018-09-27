@@ -164,7 +164,9 @@ public class Orion extends CordovaPlugin {
                 String listapplock = args.getString(1);
                 OrionTools.applock = applock;
                 OrionTools.listapplock = listapplock;
-                callbackContext.success();
+                JSONObject r = new JSONObject();
+                r.put("applock", applock);
+                callbackContext.success(r);
             } catch (Exception e) {
                 callbackContext.error(e.getMessage());
             }
