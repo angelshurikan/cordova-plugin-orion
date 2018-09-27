@@ -41,14 +41,14 @@ public class Orion extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("blockStatusBarOverlay")) {
             try {
-                if (OrionTools.applock) {
-                    callbackContext.error("Permission denied");
-                } else if (!Settings.canDrawOverlays(cordova.getActivity())) {
-                    Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION");
-                    intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    cordova.getActivity().startActivity(intent);
-                    callbackContext.error("Permission denied");
+                if (!Settings.canDrawOverlays(cordova.getActivity())) {
+                    if (!OrionTools.applock) {
+                        Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION");
+                        intent.setData(Uri.parse("package:" + cordova.getActivity().getPackageName()));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        cordova.getActivity().startActivity(intent);
+                        callbackContext.error("Permission denied");
+                    }
                 } else {
                     OrionStatusBarOverlay.add(cordova.getActivity());
                     callbackContext.success();
